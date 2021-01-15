@@ -1,0 +1,12 @@
+wp/*.php
+wp/*.txt
+wp/*.html
+wp/*.htaccess
+wp/wp-admin
+wp/wp-includes
+wp/wp-content/languages
+wp/wp-content/*.php
+wp/wp-content/plugins/*
+wp/wp-content/themes/*
+wp/wp-content/upgrade
+!wp/wp-content/plugins/*trupayers-signup

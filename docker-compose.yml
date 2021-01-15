@@ -1,0 +1,38 @@
+version: "3.3"
+
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wptrupayers
+      MYSQL_USER: spinit
+      MYSQL_PASSWORD: spinit
+
+  wp:
+    depends_on:
+      - db
+    image: wordpress:latest
+    ports:
+      - "8000:80"
+    restart: always
+    volumes:
+      - ./wp:/var/www/html
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: spinit
+      WORDPRESS_DB_PASSWORD: spinit
+      WORDPRESS_DB_NAME: wptrupayers
+
+  cli:
+    image: wordpress:cli
+    volumes:
+      - ./wp:/var/www/html/
+
+volumes:
+  db_data: {}
