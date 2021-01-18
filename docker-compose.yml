@@ -13,11 +13,13 @@ services:
       MYSQL_DATABASE: wptrupayers
       MYSQL_USER: spinit
       MYSQL_PASSWORD: spinit
+    networks:
+      - trupayers
 
   wp:
     depends_on:
       - db
-    image: wordpress:latest
+    build: ./
     ports:
       - "8000:80"
     restart: always
@@ -28,11 +30,31 @@ services:
       WORDPRESS_DB_USER: spinit
       WORDPRESS_DB_PASSWORD: spinit
       WORDPRESS_DB_NAME: wptrupayers
+    networks:
+      - trupayers
 
   cli:
     image: wordpress:cli
     volumes:
       - ./wp:/var/www/html/
+    networks:
+      - trupayers
 
+  # react:
+  #   stdin_open: true
+  #   depends_on:
+  #     - wp
+  #   build: .
+  #   volumes:
+  #     - ./wp/wp-content/plugins/trupayers-signup/trupayers-signup-react/public:/app/public
+  #     - ./wp/wp-content/plugins/trupayers-signup/trupayers-signup-react/build:/app/build
+  #     - ./wp/wp-content/plugins/trupayers-signup/trupayers-signup-react/:/app
+  #   ports:
+  #     - "3000:3000"
+  #   networks:
+  #     - trupayers
+
+networks:
+  trupayers:
 volumes:
   db_data: {}
